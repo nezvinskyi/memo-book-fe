@@ -8,8 +8,17 @@ const config = {
   },
 };
 
+// const setToken = token => {
+//   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+// };
+
+// export const unsetToken = () => {
+//   axios.defaults.headers.common.Authorization = '';
+// };
+
 const loginUser = async (email, password) => {
   const { data } = await axios.post('/api/v1/users/login', { email, password }, config);
+  // setToken(data.token);
 
   return data;
 };
@@ -18,9 +27,17 @@ const registerUser = async (name, email, password, avatar) => {
   // in case no avatar provided, the gravatar will be used instead. See Schema avatar default.
 
   if (avatar) {
-    return await axios.post('/api/v1/users', { name, email, password, avatar }, config);
+    const { data } = await axios.post('/api/v1/users', { name, email, password, avatar }, config);
+
+    // setToken(data.token);
+
+    return data;
   } else {
-    return await axios.post('/api/v1/users', { name, email, password }, config);
+    const { data } = await axios.post('/api/v1/users', { name, email, password }, config);
+
+    // setToken(data.token);
+
+    return data;
   }
 };
 

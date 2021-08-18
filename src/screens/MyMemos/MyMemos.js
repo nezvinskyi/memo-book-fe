@@ -1,11 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { MainScreen } from '../../components';
+import { ErrorMessage, Loading, MainScreen } from '../../components';
 import { Accordion, Badge, Button, Card } from 'react-bootstrap';
-import axios from 'axios';
+// import axios from 'axios';
+// import { getMemos } from '../../service/memos-api';
+import { listMemos } from '../../redux/actions/memoActions';
+import { useDispatch, useSelector } from 'react-redux';
 
-const MyMemos = () => {
-  const [memos, setNotes] = useState([]);
+const MyMemos = ({ history }) => {
+  const dispatch = useDispatch();
+
+  const memoList = useSelector(state => state.memoList);
+  const { memos, loading, error } = memoList;
+
+  const userLogin = useSelector(state => state.userLogin);
+  const { userInfo } = userLogin;
 
   const deleteHandler = id => {
     if (window.confirm('Are you sure?')) {
@@ -13,14 +22,12 @@ const MyMemos = () => {
     }
   };
 
-  const fetchNotes = async () => {
-    const { data } = await axios.get('http://localhost:5000/api/memos');
-    setNotes(data);
-  };
-
   useEffect(() => {
-    fetchNotes();
-  }, []);
+    dispatch(listMemos());
+    if (!userInfo) {
+      history.push('/');
+    }
+  }, [dispatch, history, userInfo]);
 
   return (
     <MainScreen title="Welcome back Dmitry">
@@ -30,7 +37,10 @@ const MyMemos = () => {
         </Button>
       </Link>
 
-      {memos.map(memo => (
+      {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
+      {loading && <Loading />}
+
+      {memos?.map(memo => (
         <Accordion key={memo._id}>
           <Card style={{ margin: 10 }}>
             <Card.Header style={{ display: 'flex' }}>

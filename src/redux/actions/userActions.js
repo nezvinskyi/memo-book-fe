@@ -8,6 +8,7 @@ import {
   USER_REGISTRATION_REQUEST,
   USER_REGISTRATION_SUCCESS,
 } from '../constants/userConstants';
+// import { unsetToken } from '../../service/auth-api';
 
 export const login = (email, password) => async dispatch => {
   try {
@@ -28,13 +29,14 @@ export const login = (email, password) => async dispatch => {
 export const logout = () => async dispatch => {
   localStorage.removeItem('userInfo');
   dispatch({ type: USER_LOGOUT });
+  // unsetToken();
 };
 
 export const register = (name, email, password, avatar) => async dispatch => {
   try {
     dispatch({ type: USER_REGISTRATION_REQUEST });
 
-    const { data } = await api.registerUser(name, email, password, avatar);
+    const data = await api.registerUser(name, email, password, avatar);
     console.log('new user :>> ', data);
 
     dispatch({ type: USER_REGISTRATION_SUCCESS, payload: data });
