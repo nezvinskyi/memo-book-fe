@@ -6,7 +6,7 @@ const LandingPage = () => {
   //   const userInfo = localStorage.getItem('userInfo');
 
   //   if (userInfo) {
-  //     history.push('/mynotes');
+  //     history.push('/mymemos');
   //   }
   // }, [history]);
 
@@ -17,7 +17,7 @@ const LandingPage = () => {
           <div className={style.introText}>
             <div className="">
               <h1 className={style.title}>Welcome to Memo-Book</h1>
-              <p className={style.subtitle}>One safe place for all your notes</p>
+              <p className={style.subtitle}>One safe place for all your memos</p>
             </div>
             <div className={style.buttonContainer}>
               <a href="/login">

@@ -1,6 +1,6 @@
 import LandingPage from './LandingPage';
-import MyNotes from './MyNotes';
+import MyMemos from './MyMemos';
 import RegisterPage from './RegisterPage';
 import LoginPage from './LoginPage';
 
-export { MyNotes, LandingPage, RegisterPage, LoginPage };
+export { MyMemos, LandingPage, RegisterPage, LoginPage };

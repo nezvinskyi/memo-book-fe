@@ -4,8 +4,8 @@ import { MainScreen } from '../../components';
 import { Accordion, Badge, Button, Card } from 'react-bootstrap';
 import axios from 'axios';
 
-const MyNotes = () => {
-  const [notes, setNotes] = useState([]);
+const MyMemos = () => {
+  const [memos, setNotes] = useState([]);
 
   const deleteHandler = id => {
     if (window.confirm('Are you sure?')) {
@@ -14,7 +14,7 @@ const MyNotes = () => {
   };
 
   const fetchNotes = async () => {
-    const { data } = await axios.get('http://localhost:5000/api/notes');
+    const { data } = await axios.get('http://localhost:5000/api/memos');
     setNotes(data);
   };
 
@@ -24,14 +24,14 @@ const MyNotes = () => {
 
   return (
     <MainScreen title="Welcome back Dmitry">
-      <Link to="createnote">
+      <Link to="creatememo">
         <Button size="lg" style={{ marginLeft: 10, marginBottom: 6 }}>
-          Create new note
+          Create new memo
         </Button>
       </Link>
 
-      {notes.map(note => (
-        <Accordion key={note._id}>
+      {memos.map(memo => (
+        <Accordion key={memo._id}>
           <Card style={{ margin: 10 }}>
             <Card.Header style={{ display: 'flex' }}>
               <span
@@ -45,17 +45,17 @@ const MyNotes = () => {
                 }}
               >
                 <Accordion.Toggle as={Card.Text} variant="link" eventKey="0">
-                  {note.title}
+                  {memo.title}
                 </Accordion.Toggle>
               </span>
 
               <div>
-                <Button href={`/note/${note._id}`}>Edit</Button>
+                <Button href={`/memo/${memo._id}`}>Edit</Button>
                 <Button
                   variant="danger"
                   className="mx-2"
                   onClick={() => {
-                    deleteHandler(note._id);
+                    deleteHandler(memo._id);
                   }}
                 >
                   Delete
@@ -65,11 +65,11 @@ const MyNotes = () => {
             <Accordion.Collapse eventKey="0">
               <Card.Body>
                 <h4>
-                  <Badge variant="success">Category - {note.category}</Badge>
+                  <Badge variant="success">Category - {memo.category}</Badge>
                 </h4>
 
                 <blockquote className="blockquote mb-0">
-                  <p>{note.content}</p>
+                  <p>{memo.content}</p>
                   <footer className="blockquote-footer">Created on - date</footer>
                 </blockquote>
               </Card.Body>
@@ -81,4 +81,4 @@ const MyNotes = () => {
   );
 };
 
-export default MyNotes;
+export default MyMemos;

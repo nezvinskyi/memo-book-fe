@@ -18,7 +18,7 @@ const LoginPage = ({ history }) => {
 
   useEffect(() => {
     if (userInfo) {
-      history.push('/mynotes');
+      history.push('/mymemos');
     }
   }, [history, userInfo]);
 
