@@ -1,10 +1,11 @@
-import { useState } from 'react';
-import api from '../../service/auth-api';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { register } from '../../redux/actions/userActions';
 import { MainScreen, Loading, ErrorMessage } from '../../components';
 import { Form, Button } from 'react-bootstrap';
 import './RegisterPage.css';
 
-const RegisterPage = () => {
+const RegisterPage = ({ history }) => {
   const [name, setName] = useState('D');
   const [email, setEmail] = useState('dima@dima.dd');
   const [password, setPassword] = useState('12345');
@@ -12,8 +13,18 @@ const RegisterPage = () => {
   const [avatar, setAvatar] = useState('');
   const [message, setMessage] = useState(null);
   const [avatarMessage, setAvatarMessage] = useState(null);
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const userRegister = useSelector(state => state.userRegister);
+
+  const { loading, error, userInfo } = userRegister;
+
+  useEffect(() => {
+    if (userInfo) {
+      history.push('/mynotes');
+    }
+  }, [history, userInfo]);
 
   const submitHandler = async e => {
     e.preventDefault();
@@ -23,18 +34,7 @@ const RegisterPage = () => {
       return;
     }
 
-    try {
-      setLoading(true);
-
-      const { data } = await api.registerUser(name, email, password, avatar);
-      console.log('new user :>> ', data);
-
-      setLoading(false);
-      localStorage.setItem('userInfo', JSON.stringify(data));
-    } catch (error) {
-      setError(error.response.data.message);
-      setLoading(false);
-    }
+    dispatch(register(name, email, password, avatar));
   };
 
   const postDetails = avatars => {

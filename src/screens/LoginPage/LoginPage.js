@@ -1,36 +1,31 @@
-// import axios from 'axios';
-import { useState } from 'react';
-
-import api from '../../service/auth-api';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../../redux/actions/userActions';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { MainScreen, Loading, ErrorMessage } from '../../components';
 
 import './LoginPage.css';
 
-// axios.defaults.baseURL = 'http://localhost:5000';
-
-const LoginPage = () => {
+const LoginPage = ({ history }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const userLogin = useSelector(state => state.userLogin);
+  const { loading, error, userInfo } = userLogin;
+
+  useEffect(() => {
+    if (userInfo) {
+      history.push('/mynotes');
+    }
+  }, [history, userInfo]);
 
   const submitHandler = async e => {
     e.preventDefault();
-    try {
-      setLoading(true);
 
-      const data = await api.loginUser(email, password);
-
-      console.log(data);
-      localStorage.setItem('userInfo', JSON.stringify(data));
-
-      setLoading(false);
-    } catch (error) {
-      setError(error.response.data.message);
-      setLoading(false);
-    }
+    dispatch(login(email, password));
   };
 
   return (

@@ -1,8 +1,19 @@
 import { Navbar, Container, Nav, NavDropdown, Form, FormControl } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
+import { logout } from '../../redux/actions/userActions';
 
 const Header = () => {
   const history = useHistory();
+
+  const dispatch = useDispatch();
+  const userLogin = useSelector(state => state.userLogin);
+  const { userInfo } = userLogin;
+
+  const logoutHandler = () => {
+    dispatch(logout());
+    history.push('/');
+  };
 
   return (
     <header>
@@ -24,14 +35,7 @@ const Header = () => {
               <NavDropdown title="Dmitry" id="basic-nav-dropdown">
                 <NavDropdown.Item href="#action/3.1">My Profile</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item
-                  onClick={() => {
-                    localStorage.removeItem('userInfo');
-                    history.push('/');
-                  }}
-                >
-                  Logout
-                </NavDropdown.Item>
+                <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
               </NavDropdown>
             </Nav>
           </Navbar.Collapse>
