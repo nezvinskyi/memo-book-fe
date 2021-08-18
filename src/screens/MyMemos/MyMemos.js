@@ -2,8 +2,6 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ErrorMessage, Loading, MainScreen } from '../../components';
 import { Accordion, Badge, Button, Card } from 'react-bootstrap';
-// import axios from 'axios';
-// import { getMemos } from '../../service/memos-api';
 import { listMemos } from '../../redux/actions/memoActions';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -16,6 +14,9 @@ const MyMemos = ({ history }) => {
   const userLogin = useSelector(state => state.userLogin);
   const { userInfo } = userLogin;
 
+  const memoAdd = useSelector(state => state.memoAdd);
+  const { success } = memoAdd;
+
   const deleteHandler = id => {
     if (window.confirm('Are you sure?')) {
       alert(id);
@@ -27,11 +28,11 @@ const MyMemos = ({ history }) => {
     if (!userInfo) {
       history.push('/');
     }
-  }, [dispatch, history, userInfo]);
+  }, [dispatch, history, userInfo, success]);
 
   return (
-    <MainScreen title="Welcome back Dmitry">
-      <Link to="creatememo">
+    <MainScreen title={`Welcome back, ${userInfo.name}`}>
+      <Link to="addmemo">
         <Button size="lg" style={{ marginLeft: 10, marginBottom: 6 }}>
           Create new memo
         </Button>
@@ -40,7 +41,7 @@ const MyMemos = ({ history }) => {
       {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
       {loading && <Loading />}
 
-      {memos?.map(memo => (
+      {memos?.reverse().map(memo => (
         <Accordion key={memo._id}>
           <Card style={{ margin: 10 }}>
             <Card.Header style={{ display: 'flex' }}>
@@ -80,7 +81,9 @@ const MyMemos = ({ history }) => {
 
                 <blockquote className="blockquote mb-0">
                   <p>{memo.content}</p>
-                  <footer className="blockquote-footer">Created on - date</footer>
+                  <footer className="blockquote-footer">
+                    Created on <cite title="Source Title">{memo.createdAt.substring(0, 10)}</cite>
+                  </footer>
                 </blockquote>
               </Card.Body>
             </Accordion.Collapse>

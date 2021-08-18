@@ -13,3 +13,16 @@ export const getMemos = async token => {
 
   return data;
 };
+
+export const addMemo = async (title, content, category, token) => {
+  const config = {
+    'Content-Type': 'application/json',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const { data } = await axios.post('/api/v1/memos/add', { title, content, category }, config);
+
+  return data;
+};
