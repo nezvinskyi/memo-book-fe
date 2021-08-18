@@ -31,8 +31,8 @@ const Header = () => {
             </Nav>
 
             <Nav>
-              <Nav.Link href="/mymemos">My Notes</Nav.Link>
-              <NavDropdown title="Dmitry" id="basic-nav-dropdown">
+              <Nav.Link href="/mymemos">My Memos</Nav.Link>
+              <NavDropdown title={userInfo?.name || 'User'} id="basic-nav-dropdown">
                 <NavDropdown.Item href="#action/3.1">My Profile</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
