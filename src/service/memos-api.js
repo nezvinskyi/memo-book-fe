@@ -26,3 +26,29 @@ export const addMemo = async (title, content, category, token) => {
 
   return data;
 };
+
+export const updateMemo = async ({ id, title, content, category, token }) => {
+  const config = {
+    'Content-Type': 'application/json',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const { data } = await axios.put(`/api/v1/memos/${id}`, { title, content, category }, config);
+
+  return data;
+};
+
+export const getMemoById = async (id, token) => {
+  const config = {
+    'Content-Type': 'application/json',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const { data } = await axios.get(`/api/v1/memos/${id}`, config);
+
+  return data;
+};

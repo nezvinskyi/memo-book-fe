@@ -1,7 +1,14 @@
 import { BrowserRouter, Route } from 'react-router-dom';
 import './App.css';
 import { Header, Footer } from './components/';
-import { LandingPage, LoginPage, RegisterPage, MyMemos, AddMemoPage } from './screens/';
+import {
+  LandingPage,
+  LoginPage,
+  RegisterPage,
+  MyMemos,
+  AddMemoPage,
+  UpdateMemoPage,
+} from './screens/';
 
 function App() {
   return (
@@ -13,6 +20,7 @@ function App() {
         <Route path="/register" component={RegisterPage} />
         <Route path="/mymemos" component={MyMemos} />
         <Route path="/addmemo" component={AddMemoPage} />
+        <Route path="/memo/:id" component={UpdateMemoPage} />
       </main>
       <Footer />
     </BrowserRouter>

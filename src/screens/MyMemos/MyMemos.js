@@ -15,7 +15,10 @@ const MyMemos = ({ history }) => {
   const { userInfo } = userLogin;
 
   const memoAdd = useSelector(state => state.memoAdd);
-  const { success } = memoAdd;
+  const { success: successCreated } = memoAdd;
+
+  const memoUpdate = useSelector(state => state.memoUpdate);
+  const { success: successUpdated } = memoUpdate;
 
   const deleteHandler = id => {
     if (window.confirm('Are you sure?')) {
@@ -28,7 +31,7 @@ const MyMemos = ({ history }) => {
     if (!userInfo) {
       history.push('/');
     }
-  }, [dispatch, history, userInfo, success]);
+  }, [dispatch, history, userInfo, successCreated, successUpdated]);
 
   return (
     <MainScreen title={`Welcome back, ${userInfo.name}`}>

@@ -5,6 +5,9 @@ import {
   MEMOS_LIST_FAIL,
   MEMOS_LIST_REQUEST,
   MEMOS_LIST_SUCCESS,
+  MEMOS_UPDATE_FAIL,
+  MEMOS_UPDATE_REQUEST,
+  MEMOS_UPDATE_SUCCESS,
 } from '../constants/memoConstants';
 
 export const memoListReducer = (state = { memos: [] }, action) => {
@@ -28,7 +31,21 @@ export const memoAddReducer = (state = {}, action) => {
     case MEMOS_ADD_SUCCESS:
       return { loading: false, success: true };
     case MEMOS_ADD_FAIL:
-      return { loading: false, error: action.payload };
+      return { loading: false, error: action.payload, success: false };
+
+    default:
+      return state;
+  }
+};
+
+export const memoUpdateReducer = (state = {}, action) => {
+  switch (action.type) {
+    case MEMOS_UPDATE_REQUEST:
+      return { loading: true };
+    case MEMOS_UPDATE_SUCCESS:
+      return { loading: false, success: true };
+    case MEMOS_UPDATE_FAIL:
+      return { loading: false, error: action.payload, success: false };
 
     default:
       return state;

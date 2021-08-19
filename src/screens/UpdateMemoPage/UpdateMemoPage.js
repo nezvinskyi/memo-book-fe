@@ -1,25 +1,41 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addMemoAction } from '../../redux/actions/memoActions';
+import { updateMemoAction } from '../../redux/actions/memoActions';
 import ReactMarkdown from 'react-markdown';
 import { ErrorMessage, Loading, MainScreen } from '../../components';
 import { Button, Card, Form } from 'react-bootstrap';
+import { useEffect } from 'react';
+import { getMemoById } from '../../service/memos-api';
 
-const AddMemoPage = ({ history }) => {
-  const [title, setTitle] = useState();
-  const [content, setContent] = useState();
-  const [category, setCategory] = useState();
+const UpdateMemoPage = ({ match, history }) => {
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [category, setCategory] = useState('');
+  const [date, setDate] = useState('');
 
   const dispatch = useDispatch();
 
-  const memoAdd = useSelector(state => state.memoAdd);
+  const memoUpdate = useSelector(state => state.memoUpdate);
+  const { loading, error } = memoUpdate;
 
-  const { loading, error, memo } = memoAdd;
-  console.log('memo :>> ', memo);
+  const {
+    userInfo: { token },
+  } = useSelector(state => state.userLogin);
 
-  const submitHandler = e => {
+  useEffect(() => {
+    const fetching = async () => {
+      const { data } = await getMemoById(match.params.id, token);
+      setTitle(data.title);
+      setContent(data.content);
+      setCategory(data.category);
+      setDate(data.updatedAt);
+    };
+    fetching();
+  }, [match.params.id, date, token]);
+
+  const updateHandler = e => {
     e.preventDefault();
-    dispatch(addMemoAction(title, content, category));
+    dispatch(updateMemoAction(match.params.id, title, content, category));
 
     if (!title || !content || !category) return;
 
@@ -34,12 +50,13 @@ const AddMemoPage = ({ history }) => {
   };
 
   return (
-    <MainScreen title="Create a Memo">
+    <MainScreen title="Update Memo">
       <Card>
-        <Card.Header>Create a new memo</Card.Header>
+        <Card.Header>Update your memo</Card.Header>
         <Card.Body>
-          <Form onSubmit={submitHandler}>
+          <Form onSubmit={updateHandler}>
             {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
+
             <Form.Group controlId="title">
               <Form.Label>Title</Form.Label>
               <Form.Control
@@ -82,20 +99,21 @@ const AddMemoPage = ({ history }) => {
             {loading && <Loading size={50} />}
 
             <Button type="submit" variant="primary">
-              Create Note
+              Update Note
             </Button>
-            <Button className="mx-2" onClick={resetHandler} variant="danger">
-              Reset Fields
+            <Button
+              className="mx-2"
+              // onClick={()=>deleteHandler(match.params.id)}
+              variant="danger"
+            >
+              Delete Note
             </Button>
           </Form>
         </Card.Body>
 
-        <Card.Footer className="text-muted">
-          Creating on - {new Date().toLocaleDateString()}
-        </Card.Footer>
+        <Card.Footer className="text-muted">Last updated on - {date.substring(0, 10)}</Card.Footer>
       </Card>
     </MainScreen>
   );
 };
-
-export default AddMemoPage;
+export default UpdateMemoPage;
