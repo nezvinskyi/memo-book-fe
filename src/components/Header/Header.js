@@ -7,8 +7,7 @@ const Header = ({ search, setSearch }) => {
   const history = useHistory();
 
   const dispatch = useDispatch();
-  const userLogin = useSelector(state => state.userLogin);
-  const { userInfo } = userLogin;
+  const { userInfo } = useSelector(state => state.userLogin);
 
   const logoutHandler = () => {
     dispatch(logout());
@@ -23,27 +22,29 @@ const Header = ({ search, setSearch }) => {
             <Link to="/">Memo-Book</Link>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="m-auto">
-              <Form inline>
-                <FormControl
-                  type="text"
-                  placeholder="Search"
-                  className="mr-sm-2"
-                  onChange={e => setSearch(e.target.value)}
-                />
-              </Form>
-            </Nav>
+          {userInfo && (
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav className="m-auto">
+                <Form inline>
+                  <FormControl
+                    type="text"
+                    placeholder="Search"
+                    className="mr-sm-2"
+                    onChange={e => setSearch(e.target.value)}
+                  />
+                </Form>
+              </Nav>
 
-            <Nav>
-              <Nav.Link href="/mymemos">My Memos</Nav.Link>
-              <NavDropdown title={userInfo?.name || 'User'} id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">My Profile</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
-              </NavDropdown>
-            </Nav>
-          </Navbar.Collapse>
+              <Nav>
+                <Nav.Link href="/mymemos">My Memos</Nav.Link>
+                <NavDropdown title={userInfo?.name || 'User'} id="basic-nav-dropdown">
+                  <NavDropdown.Item href="#action/3.1">My Profile</NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
+                </NavDropdown>
+              </Nav>
+            </Navbar.Collapse>
+          )}
         </Container>
       </Navbar>
     </header>
