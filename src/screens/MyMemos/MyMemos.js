@@ -5,7 +5,7 @@ import { Accordion, Badge, Button, Card } from 'react-bootstrap';
 import { deleteMemoAction, listMemos } from '../../redux/actions/memoActions';
 import { useDispatch, useSelector } from 'react-redux';
 
-const MyMemos = ({ history }) => {
+const MyMemos = ({ history, search }) => {
   const dispatch = useDispatch();
 
   const memoList = useSelector(state => state.memoList);
@@ -50,55 +50,60 @@ const MyMemos = ({ history }) => {
       {loadingDelete && <Loading />}
       {loading && <Loading />}
 
-      {memos?.reverse().map(memo => (
-        <Accordion key={memo._id}>
-          <Card style={{ margin: 10 }}>
-            <Card.Header style={{ display: 'flex' }}>
-              <span
-                style={{
-                  color: 'black',
-                  textDecoration: 'none',
-                  flex: 1,
-                  cursor: 'pointer',
-                  alignSelf: 'center',
-                  fontSize: 18,
-                }}
-              >
-                <Accordion.Toggle as={Card.Text} variant="link" eventKey="0">
-                  {memo.title}
-                </Accordion.Toggle>
-              </span>
-
-              <div>
-                <Button href={`/memo/${memo._id}`}>Edit</Button>
-                <Button
-                  variant="danger"
-                  className="mx-2"
-                  onClick={() => {
-                    deleteHandler(memo._id);
+      {memos
+        ?.reverse()
+        .filter(filteredMemo =>
+          filteredMemo.title.toLowerCase().includes(search.toLowerCase().trim()),
+        )
+        .map(memo => (
+          <Accordion key={memo._id}>
+            <Card style={{ margin: 10 }}>
+              <Card.Header style={{ display: 'flex' }}>
+                <span
+                  style={{
+                    color: 'black',
+                    textDecoration: 'none',
+                    flex: 1,
+                    cursor: 'pointer',
+                    alignSelf: 'center',
+                    fontSize: 18,
                   }}
                 >
-                  Delete
-                </Button>
-              </div>
-            </Card.Header>
-            <Accordion.Collapse eventKey="0">
-              <Card.Body>
-                <h4>
-                  <Badge variant="success">Category - {memo.category}</Badge>
-                </h4>
+                  <Accordion.Toggle as={Card.Text} variant="link" eventKey="0">
+                    {memo.title}
+                  </Accordion.Toggle>
+                </span>
 
-                <blockquote className="blockquote mb-0">
-                  <p>{memo.content}</p>
-                  <footer className="blockquote-footer">
-                    Created on <cite title="Source Title">{memo.createdAt.substring(0, 10)}</cite>
-                  </footer>
-                </blockquote>
-              </Card.Body>
-            </Accordion.Collapse>
-          </Card>
-        </Accordion>
-      ))}
+                <div>
+                  <Button href={`/memo/${memo._id}`}>Edit</Button>
+                  <Button
+                    variant="danger"
+                    className="mx-2"
+                    onClick={() => {
+                      deleteHandler(memo._id);
+                    }}
+                  >
+                    Delete
+                  </Button>
+                </div>
+              </Card.Header>
+              <Accordion.Collapse eventKey="0">
+                <Card.Body>
+                  <h4>
+                    <Badge variant="success">Category - {memo.category}</Badge>
+                  </h4>
+
+                  <blockquote className="blockquote mb-0">
+                    <p>{memo.content}</p>
+                    <footer className="blockquote-footer">
+                      Created on <cite title="Source Title">{memo.createdAt.substring(0, 10)}</cite>
+                    </footer>
+                  </blockquote>
+                </Card.Body>
+              </Accordion.Collapse>
+            </Card>
+          </Accordion>
+        ))}
     </MainScreen>
   );
 };
