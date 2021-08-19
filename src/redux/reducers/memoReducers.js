@@ -2,6 +2,9 @@ import {
   MEMOS_ADD_FAIL,
   MEMOS_ADD_REQUEST,
   MEMOS_ADD_SUCCESS,
+  MEMOS_DELETE_FAIL,
+  MEMOS_DELETE_REQUEST,
+  MEMOS_DELETE_SUCCESS,
   MEMOS_LIST_FAIL,
   MEMOS_LIST_REQUEST,
   MEMOS_LIST_SUCCESS,
@@ -45,6 +48,20 @@ export const memoUpdateReducer = (state = {}, action) => {
     case MEMOS_UPDATE_SUCCESS:
       return { loading: false, success: true };
     case MEMOS_UPDATE_FAIL:
+      return { loading: false, error: action.payload, success: false };
+
+    default:
+      return state;
+  }
+};
+
+export const memoDeleteReducer = (state = {}, action) => {
+  switch (action.type) {
+    case MEMOS_DELETE_REQUEST:
+      return { loading: true };
+    case MEMOS_DELETE_SUCCESS:
+      return { loading: false, success: true };
+    case MEMOS_DELETE_FAIL:
       return { loading: false, error: action.payload, success: false };
 
     default:

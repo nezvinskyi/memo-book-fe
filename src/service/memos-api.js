@@ -52,3 +52,16 @@ export const getMemoById = async (id, token) => {
 
   return data;
 };
+
+export const deleteMemoById = async (id, token) => {
+  const config = {
+    'Content-Type': 'application/json',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const { data } = await axios.delete(`/api/v1/memos/${id}`, config);
+
+  return data;
+};

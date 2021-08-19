@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateMemoAction } from '../../redux/actions/memoActions';
+import { deleteMemoAction, updateMemoAction } from '../../redux/actions/memoActions';
 import ReactMarkdown from 'react-markdown';
 import { ErrorMessage, Loading, MainScreen } from '../../components';
 import { Button, Card, Form } from 'react-bootstrap';
@@ -21,6 +21,9 @@ const UpdateMemoPage = ({ match, history }) => {
   const {
     userInfo: { token },
   } = useSelector(state => state.userLogin);
+
+  const memoDelete = useSelector(state => state.memoDelete);
+  const { loading: loadingDelete, error: errorDelete } = memoDelete;
 
   useEffect(() => {
     const fetching = async () => {
@@ -49,12 +52,20 @@ const UpdateMemoPage = ({ match, history }) => {
     setCategory('');
   };
 
+  const deleteHandler = id => {
+    if (window.confirm('Are you sure?')) {
+      dispatch(deleteMemoAction(id));
+      history.push('/mymemos');
+    }
+  };
+
   return (
     <MainScreen title="Update Memo">
       <Card>
         <Card.Header>Update your memo</Card.Header>
         <Card.Body>
           <Form onSubmit={updateHandler}>
+            {errorDelete && <ErrorMessage variant="danger">{errorDelete}</ErrorMessage>}
             {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
 
             <Form.Group controlId="title">
@@ -96,6 +107,7 @@ const UpdateMemoPage = ({ match, history }) => {
               />
             </Form.Group>
 
+            {loadingDelete && <Loading />}
             {loading && <Loading size={50} />}
 
             <Button type="submit" variant="primary">
@@ -103,7 +115,7 @@ const UpdateMemoPage = ({ match, history }) => {
             </Button>
             <Button
               className="mx-2"
-              // onClick={()=>deleteHandler(match.params.id)}
+              onClick={() => deleteHandler(match.params.id)}
               variant="danger"
             >
               Delete Note

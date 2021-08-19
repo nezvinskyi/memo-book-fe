@@ -1,8 +1,10 @@
-import { addMemo, getMemos, updateMemo } from '../../service/memos-api';
+import { addMemo, deleteMemoById, getMemos, updateMemo } from '../../service/memos-api';
 import {
   MEMOS_ADD_FAIL,
   MEMOS_ADD_REQUEST,
   MEMOS_ADD_SUCCESS,
+  MEMOS_DELETE_REQUEST,
+  MEMOS_DELETE_SUCCESS,
   MEMOS_LIST_FAIL,
   MEMOS_LIST_REQUEST,
   MEMOS_LIST_SUCCESS,
@@ -73,6 +75,31 @@ export const updateMemoAction = (id, title, content, category) => async (dispatc
 
     dispatch({
       type: MEMOS_UPDATE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: MEMOS_ADD_FAIL,
+      payload: error.response?.data.message || error.message,
+    });
+  }
+};
+
+export const deleteMemoAction = id => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: MEMOS_DELETE_REQUEST,
+    });
+
+    const {
+      userLogin: {
+        userInfo: { token },
+      },
+    } = getState();
+
+    const data = await deleteMemoById(id, token);
+    dispatch({
+      type: MEMOS_DELETE_SUCCESS,
       payload: data,
     });
   } catch (error) {

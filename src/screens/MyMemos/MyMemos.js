@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ErrorMessage, Loading, MainScreen } from '../../components';
 import { Accordion, Badge, Button, Card } from 'react-bootstrap';
-import { listMemos } from '../../redux/actions/memoActions';
+import { deleteMemoAction, listMemos } from '../../redux/actions/memoActions';
 import { useDispatch, useSelector } from 'react-redux';
 
 const MyMemos = ({ history }) => {
@@ -20,9 +20,12 @@ const MyMemos = ({ history }) => {
   const memoUpdate = useSelector(state => state.memoUpdate);
   const { success: successUpdated } = memoUpdate;
 
+  const memoDelete = useSelector(state => state.memoDelete);
+  const { loading: loadingDelete, error: errorDelete, success: successDelete } = memoDelete;
+
   const deleteHandler = id => {
     if (window.confirm('Are you sure?')) {
-      alert(id);
+      dispatch(deleteMemoAction(id));
     }
   };
 
@@ -31,7 +34,7 @@ const MyMemos = ({ history }) => {
     if (!userInfo) {
       history.push('/');
     }
-  }, [dispatch, history, userInfo, successCreated, successUpdated]);
+  }, [dispatch, history, userInfo, successCreated, successUpdated, successDelete]);
 
   return (
     <MainScreen title={`Welcome back, ${userInfo.name}`}>
@@ -41,7 +44,10 @@ const MyMemos = ({ history }) => {
         </Button>
       </Link>
 
+      {errorDelete && <ErrorMessage variant="danger">{errorDelete}</ErrorMessage>}
       {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
+
+      {loadingDelete && <Loading />}
       {loading && <Loading />}
 
       {memos?.reverse().map(memo => (
