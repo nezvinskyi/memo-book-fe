@@ -6,10 +6,10 @@ import { Form, Button } from 'react-bootstrap';
 import './RegisterPage.css';
 
 const RegisterPage = ({ history }) => {
-  const [name, setName] = useState('D');
-  const [email, setEmail] = useState('dima@dima.dd');
-  const [password, setPassword] = useState('12345');
-  const [confirmPassword, setConfirmPassword] = useState('12345');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [avatar, setAvatar] = useState('');
   const [message, setMessage] = useState(null);
   const [avatarMessage, setAvatarMessage] = useState(null);
