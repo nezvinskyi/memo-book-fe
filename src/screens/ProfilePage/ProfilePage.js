@@ -30,7 +30,7 @@ const ProfilePage = ({ history }) => {
 
   const submitHandler = e => {
     e.preventDefault();
-
+    setMessage('');
     if (password !== confirmPassword) {
       setMessage('Passwords no not match');
       return;
@@ -76,7 +76,7 @@ const ProfilePage = ({ history }) => {
               {(error || message) && (
                 <ErrorMessage variant="danger">{error || message}</ErrorMessage>
               )}
-              {success && <ErrorMessage variant="sucess">Updated successfully</ErrorMessage>}
+              {success && <ErrorMessage variant="success">Updated successfully</ErrorMessage>}
               <Form.Group controlId="name">
                 <Form.Label>Name</Form.Label>
                 <Form.Control
