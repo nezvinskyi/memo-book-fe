@@ -4,5 +4,6 @@ import RegisterPage from './RegisterPage';
 import LoginPage from './LoginPage';
 import AddMemoPage from './AddMemoPage';
 import UpdateMemoPage from './UpdateMemoPage';
+import ProfilePage from './ProfilePage';
 
-export { MyMemos, LandingPage, RegisterPage, LoginPage, AddMemoPage, UpdateMemoPage };
+export { MyMemos, LandingPage, RegisterPage, LoginPage, AddMemoPage, UpdateMemoPage, ProfilePage };

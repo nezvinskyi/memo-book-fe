@@ -9,6 +9,7 @@ import {
   MyMemos,
   AddMemoPage,
   UpdateMemoPage,
+  ProfilePage,
 } from './screens/';
 
 function App() {
@@ -19,8 +20,9 @@ function App() {
       <Header setSearch={setSearch} />
       <main>
         <Route path="/" exact component={LandingPage} />
-        <Route path="/login" component={LoginPage} />
         <Route path="/register" component={RegisterPage} />
+        <Route path="/login" component={LoginPage} />
+        <Route path="/profile" component={ProfilePage} />
         <Route path="/mymemos" component={() => <MyMemos search={search} />} />
         <Route path="/addmemo" component={AddMemoPage} />
         <Route path="/memo/:id" component={UpdateMemoPage} />

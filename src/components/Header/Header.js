@@ -37,8 +37,8 @@ const Header = ({ search, setSearch }) => {
 
               <Nav>
                 <Nav.Link href="/mymemos">My Memos</Nav.Link>
-                <NavDropdown title={userInfo?.name || 'User'} id="basic-nav-dropdown">
-                  <NavDropdown.Item href="#action/3.1">My Profile</NavDropdown.Item>
+                <NavDropdown title={userInfo?.name} id="basic-nav-dropdown">
+                  <NavDropdown.Item href="/profile">My Profile</NavDropdown.Item>
                   <NavDropdown.Divider />
                   <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
                 </NavDropdown>

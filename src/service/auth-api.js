@@ -41,6 +41,18 @@ const registerUser = async (name, email, password, avatar) => {
   }
 };
 
-const api = { loginUser, registerUser };
+const updateUser = async (user, token) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const { data } = await axios.post('api/v1/users/profile', user, config);
+
+  return data;
+};
+
+const api = { loginUser, registerUser, updateUser };
 
 export default api;

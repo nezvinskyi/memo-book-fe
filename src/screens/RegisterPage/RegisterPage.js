@@ -54,7 +54,6 @@ const RegisterPage = ({ history }) => {
       })
         .then(res => res.json())
         .then(data => {
-          console.log('data :>> ', data);
           setAvatar(data.url.toString());
         })
         .catch(err => {

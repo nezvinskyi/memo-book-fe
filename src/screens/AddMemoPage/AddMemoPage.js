@@ -6,16 +6,15 @@ import { ErrorMessage, Loading, MainScreen } from '../../components';
 import { Button, Card, Form } from 'react-bootstrap';
 
 const AddMemoPage = ({ history }) => {
-  const [title, setTitle] = useState();
-  const [content, setContent] = useState();
-  const [category, setCategory] = useState();
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [category, setCategory] = useState('');
 
   const dispatch = useDispatch();
 
   const memoAdd = useSelector(state => state.memoAdd);
 
-  const { loading, error, memo } = memoAdd;
-  console.log('memo :>> ', memo);
+  const { loading, error } = memoAdd;
 
   const submitHandler = e => {
     e.preventDefault();
