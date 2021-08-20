@@ -4,6 +4,7 @@ import { ErrorMessage, Loading, MainScreen } from '../../components';
 import { Accordion, Badge, Button, Card } from 'react-bootstrap';
 import { deleteMemoAction, listMemos } from '../../redux/actions/memoActions';
 import { useDispatch, useSelector } from 'react-redux';
+import ReactMarkdown from 'react-markdown';
 
 const MyMemos = ({ history, search }) => {
   const dispatch = useDispatch();
@@ -94,7 +95,7 @@ const MyMemos = ({ history, search }) => {
                   </h4>
 
                   <blockquote className="blockquote mb-0">
-                    <p>{memo.content}</p>
+                    <ReactMarkdown>{memo.content}</ReactMarkdown>
                     <footer className="blockquote-footer">
                       Created on <cite title="Source Title">{memo.createdAt.substring(0, 10)}</cite>
                     </footer>
